@@ -1,0 +1,36 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000080000000                . = 0x80000000
+
+.tohost         0x0000000080000000       0x48
+ *(.tohost)
+ .tohost        0x0000000080000000       0x48 main.o
+                0x0000000080000000                tohost
+                0x0000000080000040                fromhost
+                0x0000000080001048                . = (. + 0x1000)
+
+.text           0x0000000080002000      0x144
+ *(.text)
+ .text          0x0000000080002000      0x144 main.o
+                0x0000000080002000                _start
+                0x0000000080003144                . = (. + 0x1000)
+
+.data           0x0000000080004000        0x0
+ *(.data)
+ .data          0x0000000080004000        0x0 main.o
+LOAD main.o
+OUTPUT(main elf64-littleriscv)
+
+.bss            0x0000000080003144        0x0
+ .bss           0x0000000080003144        0x0 main.o
+
+.riscv.attributes
+                0x0000000000000000       0x37
+ .riscv.attributes
+                0x0000000000000000       0x37 main.o
